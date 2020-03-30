@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Creates a readonly-user for testing https://github.com/rebuy-de/aws-nuke in dry-run mode
+
+Resources: 
+  User:
+    Type: AWS::IAM::User
+    Properties: 
+      ManagedPolicyArns: 
+        - arn:aws:iam::aws:policy/ReadOnlyAccess
+      UserName: readonly-cloud-nuke
+  Access:
+    Type: AWS::IAM::AccessKey
+    Properties: 
+      Serial: 0
+      Status: Active
+      UserName: !Ref User
+Outputs:
+  AccessKey:
+    Value: !Ref Access
+  AccessSecret:
+    Value: !GetAtt Access.SecretAccessKey
